@@ -9,6 +9,6 @@ public class ObstacleScript : MonoBehaviour {
 	}
 
 	void Update () {
-		//Debug.Log ("Script is working");
+		
 	}
 }

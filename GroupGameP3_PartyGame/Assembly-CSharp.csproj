@@ -51,13 +51,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\ControllerInputTwoTester.cs" />
-     <Compile Include="Assets\Scripts\InputLablingtest.cs" />
      <Compile Include="Assets\Scripts\LevelController.cs" />
      <Compile Include="Assets\Scripts\ObstacleScript.cs" />
      <Compile Include="Assets\Scripts\PlayerFourScrit.cs" />
      <Compile Include="Assets\Scripts\PlayerOneScript.cs" />
      <Compile Include="Assets\Scripts\PlayerThreeScript.cs" />
+     <Compile Include="Assets\Scripts\PlayerTwoScript.cs" />
      <Compile Include="Assets\XInputDotNet\Examples\XInputTestCS.cs" />
      <None Include="Assets\XInputDotNet\Docs.txt" />
      <None Include="Assets\XInputDotNet\MITLicense.txt" />

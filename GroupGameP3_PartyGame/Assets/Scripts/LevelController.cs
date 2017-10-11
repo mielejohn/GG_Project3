@@ -6,7 +6,6 @@ using XInputDotNetPure;
 
 public class LevelController : MonoBehaviour {
 
-	//public PlayerIndex playerOneIndex;
 	public PlayerIndex playerTwoIndex = PlayerIndex.Two;
 	GamePadState state;
 	GamePadState prevState;
@@ -16,14 +15,13 @@ public class LevelController : MonoBehaviour {
 	public bool GameOver = false;
 	public GameObject Instructions;
 	public int AmountofPlayers;
+	public GameObject GameStartFading;
 	public GameObject GameFinishedText;
-	//public GameObject WallEnd;
 
 	public Text Clock;
 	public int PlayerDeath = 0;
 
 	public float time=	4.0f;
-	//public float AnimSpeed = 0.0f;
 	public int timer = 30;
 
 	public GameObject PlayerOne;
@@ -40,35 +38,12 @@ public class LevelController : MonoBehaviour {
 
 	public bool playing = false;
 
-	//bool playerIndexSet = false;
-	//public PlayerIndex playerIndex = PlayerIndex.One;
-
 	void Start () {
-		//StartCoroutine (StartWait());
-		//StartCoroutine (SpawnWall ());
+		StartCoroutine (GameStarted ());
 	}
-	
-	// Update is called once per frame
 
 	void Update () {
-		//timer -= 1;
 		Clock.text = ""+ timer;
-
-	/*	if (PlayerDeath  == AmountofPlayers -1) {
-			GameOver = true;
-			if (PlayerOne.activeSelf == true) {
-				PlayerOnePlace = 1;
-			}
-			if (PlayerTwo.activeSelf == true) {
-				PlayerTwoPlace = 1;
-			}
-			if (PlayerThree.activeSelf == true) {
-				PlayerThreePlace = 1;
-			}
-			if (PlayerFour.activeSelf == true) {
-				PlayerFourPlace = 1;
-			}
-		} */
 
 		if (timer <= 0 || PlayerDeath  == AmountofPlayers -1) {
 			StartCoroutine (GameFinished());
@@ -127,10 +102,13 @@ public class LevelController : MonoBehaviour {
 			}
 		}
 	}
-
+	public IEnumerator GameStarted(){
+		GameStartFading.gameObject.GetComponent<Animator> ().Play ("GameStart_StartFade", 0, 1.0f);
+		yield return new WaitForSeconds (1.9f);
+		GameStartFading.gameObject.SetActive (false);
+	}
 	public IEnumerator GameFinished(){
 		GameFinishedText.gameObject.SetActive (true);
-		//GameFinishedText.gameObject.GetComponent<Animator> ().Play ("GameFinished_StartAnim", 0, 1.0f);
 		yield return new WaitForSeconds (1.9f);
 		GameFinishedText.gameObject.GetComponent<Animator> ().Play ("GameFinished_EndAnim", 0, 1.0f);
 	}
