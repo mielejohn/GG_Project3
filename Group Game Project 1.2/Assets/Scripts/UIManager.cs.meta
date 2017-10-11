@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 3f9e0b620ab610a45ad7ff4d77ddc76f
+timeCreated: 1507161815
+licenseType: Free
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - MainMenu: {fileID: 223413045611483940, guid: afda41c4e8d03f042930517a2f0d57ad,
+      type: 2}
+  - PlayerCountMenu: {fileID: 223683462139091380, guid: b5cc5b8f5282add439a523d8a4894207,
+      type: 2}
+  - ControllerSyncMenu: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
