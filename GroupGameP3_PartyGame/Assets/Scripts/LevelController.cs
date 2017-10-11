@@ -11,73 +11,127 @@ public class LevelController : MonoBehaviour {
 	GamePadState state;
 	GamePadState prevState;
 
-	public GameObject PlayerOne;
-	public GameObject PlayerTwo;
-
 	public GameObject Wall;
 	public GameObject WallSpawn;
+	public bool GameOver = false;
+	public GameObject Instructions;
+	public int AmountofPlayers;
+	public GameObject GameFinishedText;
 	//public GameObject WallEnd;
 
 	public Text Clock;
+	public int PlayerDeath = 0;
 
 	public float time=	4.0f;
 	//public float AnimSpeed = 0.0f;
 	public int timer = 30;
 
+	public GameObject PlayerOne;
 	public int PlayerOnePlace = 0;
+
+	public GameObject PlayerTwo;
 	public int PlayerTwoPlace = 0;
+
+	public GameObject PlayerThree;
 	public int PlayerThreePlace = 0;
+
+	public GameObject PlayerFour;
 	public int PlayerFourPlace = 0;
 
+	public bool playing = false;
+
+	//bool playerIndexSet = false;
+	//public PlayerIndex playerIndex = PlayerIndex.One;
+
 	void Start () {
-		StartCoroutine (SpawnWall ());
-		StartCoroutine (Timer ());
+		//StartCoroutine (StartWait());
+		//StartCoroutine (SpawnWall ());
 	}
 	
 	// Update is called once per frame
+
 	void Update () {
 		//timer -= 1;
 		Clock.text = ""+ timer;
 
-		if (timer == 0) {
-			if (GameObject.FindGameObjectWithTag ("PlayerOne").activeSelf == true) {
+	/*	if (PlayerDeath  == AmountofPlayers -1) {
+			GameOver = true;
+			if (PlayerOne.activeSelf == true) {
 				PlayerOnePlace = 1;
 			}
-			if (GameObject.FindGameObjectWithTag ("PlayerTwo").activeSelf == true) {
+			if (PlayerTwo.activeSelf == true) {
 				PlayerTwoPlace = 1;
 			}
-			if (GameObject.FindGameObjectWithTag ("PlayerThree").activeSelf == true) {
+			if (PlayerThree.activeSelf == true) {
 				PlayerThreePlace = 1;
 			}
-			if (GameObject.FindGameObjectWithTag ("PlayerFour").activeSelf == true) {
+			if (PlayerFour.activeSelf == true) {
 				PlayerFourPlace = 1;
+			}
+		} */
+
+		if (timer <= 0 || PlayerDeath  == AmountofPlayers -1) {
+			StartCoroutine (GameFinished());
+			GameOver = true;
+			if (PlayerOne.activeSelf == true) {
+				PlayerOnePlace = 1;
+			}
+			if (PlayerTwo.activeSelf == true) {
+				PlayerTwoPlace = 1;
+			}
+			if (PlayerThree.activeSelf == true) {
+				PlayerThreePlace = 1;
+			}
+			if (PlayerFour.activeSelf == true) {
+				PlayerFourPlace = 1;
+			}
+		}
+
+		if(playing == false){
+			if (PlayerOne.gameObject.GetComponent<PlayerOneScript>().playerIndex == PlayerIndex.One && PlayerOne.gameObject.GetComponent<PlayerOneScript>().prevState.Buttons.A == ButtonState.Released && PlayerOne.gameObject.GetComponent<PlayerOneScript>().state.Buttons.A == ButtonState.Pressed) {
+				Instructions.SetActive (false);
+				StartCoroutine (SpawnWall ());
+				StartCoroutine (Timer ());
+				playing = true;
 			}
 		}
 	}
 
 	public IEnumerator SpawnWall(){
-		yield return new WaitForSeconds (time);
-		GameObject WallI = Instantiate (Wall);
-		WallI.gameObject.transform.position = WallSpawn.transform.position;
-		WallI.gameObject.GetComponent<Animator> ().Play ("WallMove", -1, 0.0f);
-		yield return new WaitForSeconds (2.35f);
-		TimeDecrease ();
-		Destroy (WallI);
-		StartCoroutine (SpawnWall ());
+		if (GameOver == false) {
+			yield return new WaitForSeconds (time);
+			GameObject WallI = Instantiate (Wall);
+			WallI.gameObject.transform.position = WallSpawn.transform.position;
+			WallI.gameObject.GetComponent<Animator> ().Play ("WallMove", -1, 0.0f);
+			yield return new WaitForSeconds (2.35f);
+			TimeDecrease ();
+			Destroy (WallI);
+			StartCoroutine (SpawnWall ());
+		}
 	}
 
 	public void TimeDecrease(){
 		if (time >= 0.5) {
 			time -= 0.75f;
-			//AnimSpeed += 0.39f;
 		}
 	}
 
 	public IEnumerator Timer(){
-		yield return new WaitForSeconds (1.0f);
-		if (timer > 0) {
-			timer -= 1;
-			StartCoroutine (Timer ());
+			yield return new WaitForSeconds (1.0f);
+		if (GameOver == false) {
+			if (timer > 0) {
+				timer -= 1;
+				StartCoroutine (Timer ());
+			} else {
+				GameOver = true;
+			}
 		}
+	}
+
+	public IEnumerator GameFinished(){
+		GameFinishedText.gameObject.SetActive (true);
+		//GameFinishedText.gameObject.GetComponent<Animator> ().Play ("GameFinished_StartAnim", 0, 1.0f);
+		yield return new WaitForSeconds (1.9f);
+		GameFinishedText.gameObject.GetComponent<Animator> ().Play ("GameFinished_EndAnim", 0, 1.0f);
 	}
 }

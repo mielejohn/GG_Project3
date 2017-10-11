@@ -78,6 +78,7 @@ public class PlayerFourScrit : MonoBehaviour {
 		void OnTriggerEnter2D(Collider2D other){
 			if (other.tag == "Obstacle") {
 				if (this.gameObject.transform.position.z >= Wall.gameObject.transform.position.z) {
+					GC.gameObject.GetComponent<LevelController> ().PlayerDeath++;
 					this.gameObject.SetActive (false);
 					//timeAlive =	GC.gameObject.GetComponent<LevelController> ().timer;
 				}
